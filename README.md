@@ -34,5 +34,5 @@ self.Bridge_Call.emit(self.TotalData)
 ```
 --->
 ```python
-self.Bridge_Call.emit(self.TotalData.decode('UTF-8')
+self.Bridge_Call.emit(self.TotalData.decode('UTF-8'))
 ```
