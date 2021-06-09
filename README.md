@@ -33,6 +33,6 @@ class SettingsManager(metaclass = Singleton):
 self.Bridge_Call.emit(self.TotalData)
 ```
 --->
-```pyton
+```python
 self.Bridge_Call.emit(self.TotalData.decode('UTF-8')
 ```
