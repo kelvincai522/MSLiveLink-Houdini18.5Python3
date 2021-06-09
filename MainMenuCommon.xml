@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mainMenu>
+	<menuBar>
+		
+		<subMenu id="quixel_megascans_menu">
+			<label>Megascans</label>
+			<insertBefore>help_menu</insertBefore>
+
+			<separatorItem />
+		
+	  <scriptItem id="megascans_livelink">
+        <label>Megascans Plugin</label>
+        <scriptCode><![CDATA[
+import MSPlugin.MainWindow as msMainWindow
+msMainWindow.initializeWindow()]]></scriptCode>
+      </scriptItem>
+	  
+<separatorItem />
+		
+	<scriptItem id="documentation">
+		<label>Documentation</label>
+		<scriptCode><![CDATA[__import__('webbrowser').open('https://drive.google.com/open?id=1hAuh-9_g37htwBYcUd3pz8hL9B6AQTgL2h3F9GPW7y4')]]></scriptCode>
+	  </scriptItem>
+
+		</subMenu>
+	</menuBar>
+</mainMenu>
