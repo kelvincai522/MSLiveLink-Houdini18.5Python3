@@ -28,7 +28,7 @@ class SettingsManager(metaclass = Singleton):
 ```
 <p>&nbsp;</p>
 
-3.  Updated SocketListener.py to emit string instead of bytes
+3.  Updated *SocketListener.py* to emit string instead of bytes
 ```python
 self.Bridge_Call.emit(self.TotalData)
 ```
