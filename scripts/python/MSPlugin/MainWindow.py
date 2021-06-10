@@ -34,7 +34,7 @@ class MSMainWindow(QMainWindow):
             return
         else:
             MSMainWindow.__instance = self
-        super(MSMainWindow,self).__init__(GetHostApp())
+        super(MSMainWindow,self).__init__(hou.qt.mainWindow())
         self.settingsManager = SettingsManager()
         self.uiSettings = self.settingsManager.getSettings()
         self.SetupMainWindow()
@@ -44,35 +44,13 @@ class MSMainWindow(QMainWindow):
         
         
     def getStylesheet(self):
-        stylesheet_ = ("""
+        return hou.qt.styleSheet()
 
-        QCheckBox { background: transparent; color: #E6E6E6; font-family: Source Sans Pro; font-size: 14px; }
-        QCheckBox::indicator:hover { border: 2px solid #2B98F0; background-color: transparent; }
-        QCheckBox::indicator:checked:hover { background-color: #2B98F0; border: 2px solid #73a5ce; }
-        QCheckBox:indicator{ color: #67696a; background-color: transparent; border: 2px solid #67696a;
-        width: 14px; height: 14px; border-radius: 2px; }
-        QCheckBox::indicator:checked { border: 2px solid #18191b;
-        background-color: #2B98F0; color: #ffffff; }
-        QCheckBox::hover { spacing: 12px; background: transparent; color: #ffffff; }
-        QCheckBox::checked { color: #ffffff; }
-        QCheckBox::indicator:disabled, QRadioButton::indicator:disabled { border: 1px solid #444; }
-        QCheckBox:disabled { background: transparent; color: #414141; font-family: Source Sans Pro;
-        font-size: 14px; margin: 0px; text-align: center; }
-       
-        QComboBox { color: #FFFFFF; font-size: 14px; padding: 2px 2px 2px 8px; font-family: Source Sans Pro;
-        selection-background-color: #1d1e1f; background-color: #1d1e1f; }
-
-        QListView {padding: 4px;}
-        QListView::item { margin: 4px; } 
-      
-        QComboBox:hover { color: #c9c9c9; font-size: 14px; padding: 2px 2px 2px 8px; font-family: Source Sans Pro;
-        selection-background-color: #232426; background-color: #232426; } """)
-
-        return stylesheet_
        
 
     def SetupMainWindow(self):
         self.mainWidget = QWidget()
+        self.mainWidget.setStyleSheet(self.getStylesheet())
         self.setCentralWidget(self.mainWidget)
 
         self.optionsUI = UIOptions(self.uiSettings["UI"]["ImportOptions"], self.uiSettingsChanged)

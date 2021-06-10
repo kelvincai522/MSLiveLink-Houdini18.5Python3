@@ -37,7 +37,7 @@ def getImportParams(assetData, importOptions):
             createBaseNetwork(importParams["materialPath"])
         else:
             usdBasePath = "/stage"
-            objBasePath = "/obj"
+            objBasePath = importOptions["UI"]["ImportOptions"]["ObjPath"]
 
             importParams["assetName"] = getUniqueAssetName(GetAssetName(assetData, "name"), usdBasePath)
             importParams["objAssetName"] = getUniqueAssetName(GetAssetName(assetData, "name"), objBasePath)
@@ -54,7 +54,7 @@ def getImportParams(assetData, importOptions):
         if assetData["type"] == "surface" or assetData["type"] == "brush":
             importParams["materialPath"] = "/mat"
         elif assetData["type"] == "3d" or assetData["type"] == "3dplant":
-            basePath = "/obj"
+            basePath = importOptions["UI"]["ImportOptions"]["ObjPath"]
             importParams["assetName"] = getUniqueAssetName(GetAssetName(assetData, "name"), basePath)
             importParams["assetPath"] = basePath + "/" +importParams["assetName"]   
             importParams["materialPath"] = importParams["assetPath"] + "/" + "materialNet"
@@ -62,7 +62,7 @@ def getImportParams(assetData, importOptions):
 
         elif assetData["type"] == "atlas":
             if importOptions["UI"]["ImportOptions"]["UseAtlasSplitter"]:                
-                basePath = "/obj"
+                basePath = importOptions["UI"]["ImportOptions"]["ObjPath"]
                 importParams["assetName"] = getUniqueAssetName(GetAssetName(assetData, "name"), basePath)
                 importParams["assetPath"] = basePath + "/" +importParams["assetName"]
                 importParams["materialPath"] = importParams["assetPath"] + "/" + "materialNet"
