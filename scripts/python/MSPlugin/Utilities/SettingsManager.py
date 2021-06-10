@@ -40,7 +40,22 @@ class SettingsManager(metaclass = Singleton):
 
     def createDefaultSettings(self, settingsFilePath):
         try:
-            defaultSettings = { "UI" : { "ImportOptions" : { "Renderer" : "Mantra", "Material" : "Principled Shader", "UseScattering" : False, "UseExrDisplacement" : False, "UseAtlasSplitter" : False, "EnableLods" : False, "ApplyMotion" : False, "EnableUSD" : False , "ConvertToRAT" : True}, "USDOptions" : { "USDMaterial" : "Karma", "3DrefPath" : "/Megascans/_3D_Assets/", "3DPlantRefPath" : "/Megascans/_3D_Plants/", "SurfaceRefPath" : "/Megascans/Surfaces", "ImportLods" : False } }, "Misc" : { } }
+            defaultSettings = { 
+                "UI" : { 
+                    "ImportOptions" : { 
+                        "Renderer" : "Mantra", 
+                        "Material" : "Principled Shader", 
+                        "UseScattering" : False, 
+                        "UseExrDisplacement" : False, 
+                        "UseAtlasSplitter" : False, 
+                        "EnableLods" : False, 
+                        "ApplyMotion" : False, 
+                        "EnableUSD" : False , 
+                        "ConvertToRAT" : True,
+                        "ObjPath": "/obj"}, 
+                    "USDOptions" : { "USDMaterial" : "Karma", "3DrefPath" : "/Megascans/_3D_Assets/", "3DPlantRefPath" : "/Megascans/_3D_Plants/", "SurfaceRefPath" : "/Megascans/Surfaces", "ImportLods" : False } }, 
+                    "Misc" : { } 
+            }
             with open(settingsFilePath, 'w') as outfile:
                 json.dump(defaultSettings, outfile)
             return defaultSettings    

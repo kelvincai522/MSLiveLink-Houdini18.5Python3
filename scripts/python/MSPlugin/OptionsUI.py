@@ -1,9 +1,24 @@
-from PySide2.QtWidgets import QVBoxLayout,QGroupBox,QGridLayout,QComboBox,QLabel,QCheckBox,QWidget,QFrame
+from PySide2.QtWidgets import QVBoxLayout,QGroupBox,QGridLayout,QComboBox,QLabel,QCheckBox,QWidget,QFrame,QLineEdit,QAction
 
 from .Utilities.AssetData import *
 import hou
 
 from .MaterialsSetup.MaterialsCreator import MaterialsCreator
+
+class NodePath(QLineEdit):
+    def __init__(self, parent: QWidget=None):
+        super().__init__(parent=parent)
+
+        icon = hou.qt.Icon("BUTTONS_chooser_node")
+        self.action: QAction = self.addAction(icon, QLineEdit.TrailingPosition)
+        self.action.triggered.connect(self.open_selector)
+
+        self.node_filter: hou.nodeTypeFilter = hou.nodeTypeFilter.NoFilter
+
+    def open_selector(self):
+        path = hou.ui.selectNode(node_type_filter=self.node_filter)
+        if path is not None:
+            self.setText(path)
 
 class UIOptions(QWidget):
     def __init__(self, importOptions, settingsCallback):
@@ -120,18 +135,30 @@ class UIOptions(QWidget):
         ratConvertCheck.setChecked(self.importOptions["ConvertToRAT"])
         ratConvertCheck.toggled.connect(lambda state: self.miscOptionChanged(ratConvertCheck,state))
 
+        object_path_label = QLabel("Network Path:")
+        miscOptionsL.addWidget(object_path_label, 6,0)
+
+        self.obj_path = NodePath()
+        self.obj_path.setObjectName("ObjPath")
+        obj_path = self.importOptions["ObjPath"] if "ObjPath" in self.importOptions else "/obj"
+        self.obj_path.setText(obj_path)
+        self.obj_path.node_filter = hou.nodeTypeFilter.Obj
+        self.obj_path.textChanged.connect(lambda text: self.text_option_changed(self.obj_path, text))
+        miscOptionsL.addWidget(self.obj_path, 6, 1) 
+      
+
         # Enable USD Check
         # if EnableUSD() == True:
             # UI Separator
         separatorFrame2 = QFrame()
         separatorFrame2.setFrameShape(QFrame.HLine)
         separatorFrame2.setFrameShadow(QFrame.Sunken)        
-        miscOptionsL.addWidget(separatorFrame2, 6,0, 1,2)
+        miscOptionsL.addWidget(separatorFrame2, 7,0, 1,2)
 
         self.usdCheck = QCheckBox("Import Assets on USD Stage")
         self.usdCheck.setToolTip("Import and setup assets in Solaris in Houdini 18.")
         self.usdCheck.setObjectName("EnableUSD")
-        miscOptionsL.addWidget(self.usdCheck, 7,0,1,2)
+        miscOptionsL.addWidget(self.usdCheck, 8,0,1,2)
         self.uiBox.setContentsMargins(1, 1, 1, 1)
         self.usdCheck.setChecked(self.importOptions["EnableUSD"])
         self.usdCheck.toggled.connect(lambda state: self.miscOptionChanged(self.usdCheck,state))
@@ -156,6 +183,11 @@ class UIOptions(QWidget):
     def miscOptionChanged(self, optionObject, state):
         optionName = optionObject.objectName()        
         self.importOptions[optionName] = state
+        self.uiSettingsChanged()
+
+    def text_option_changed(self, option: QWidget, text):
+        option_name = option.objectName()
+        self.importOptions[option_name] = text
         self.uiSettingsChanged()
     
     def RendererChanged(self, index):
